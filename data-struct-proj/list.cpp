@@ -186,89 +186,6 @@ namespace csc212
 	void list::merge(const list& L1, const list& L2)
 	{
 		/* TODO: write this. */
-		#if 0	
-		/* attempt 1 */	
-		/* O(2n) ... almost working... :"3 */
-		listNode *p1 = L1.root; 
-		listNode *p2 = L2.root; 
-		root = NULL; 
-		listNode **p3 =&(this->root);
-
-		if(p1->data>p2->data){
-			root=new listNode(p2->data);
-			p3=root;
-			p2=p2->next;
-		}
-		
-		else{
-			root=new listNode(p1->data);
-			p3=root;
-			p1=p1->next;
-		} 
-	
-		while(p1 && p2){ 
-			if (p1->data==p2->data){ 
-				/* To account for root case */ 
-				if(!root){ /* if not null then set root to the stuff if thats the same in L1 & L2 */
-					root=new listNode(p1->data); 
-					p3=root; /* root into p3 */ 
-				} 
-				else{ /* if null then setting  */ 
-					p3->next=new listNode(p1->data);
-					p3=p3->next;
-				} 
-				p3->next=new listNode(p1->data);
-				p3->next=new listNode(p2->data);
-				p2=p2->next; 
-				p1=p1->next; 
-				p3=p3->next; 
-
-			}
-			else if(p1->data > p2->data){
-
-				p3->next=new listNode(p2->data); 
-				p2=p2->next; 
-				p3=p3->next; 
-			}
-			else{ 
-				p3->next=new listNode(p1->data);
-				p1=p1->next;
-				p3=p3->next; 
-			} 
-		}
-		return; 
-		#endif
-
-		#if 0
-		/* attempt 2 */
-		/* pointer abilities regained */
-		listNode *p1=L1.root; 
-		listNode *p2=L2.root; 
-		listNode **p3=&(this->root);
-
-		while(p2){ /* arrrrrrgggggggggg !!!!! >.><.< SEGMENTATIONFAULTSCANGOTOHELL */ 
-			if (p1->data==p2->data){ 
-				*p3=new listNode(p1->data);
-				p3=&((*p3)->next);
-				*p3=new listNode(p2->data);
-				p3=&((*p3)->next);
-				p2=p2->next; 
-				p1=p1->next;
-			}
-			else if(p1->data > p2->data){
-
-				*p3=new listNode(p2->data); 
-				p2=p2->next; 
-				p3=&((*p3)->next); 
-			}
-			else{ 
-				*p3=new listNode(p1->data);
-				p1=p1->next;
-				p3=&((*p3)->next); 
-			} 
-		}
-		#endif
-
 		/* O(6n) */  
 		listNode *p1=L1.root;
 		listNode *p2=L2.root;
@@ -311,6 +228,7 @@ namespace csc212
 			}
 			return;	
 		}
+		/*this->pain*/
 
 		//this algorithm should run in LINEAR TIME and set *this
 		//to be the union of L1 and L2, and furthermore the list should remain sorted.
