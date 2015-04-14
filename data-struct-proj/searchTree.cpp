@@ -129,12 +129,21 @@ namespace csc212
 	treeNode* copyST(treeNode* original)
 	{
 		/* TODO: write this */
+		/* this makes a copy of the subtree and returns a pointer to the root
+	 	 * (the root of the copy, of course) */
 
 		if(original){
-			treeNode* seed = new treeNode(original->data, copyST(original->left), copyST(original->right));
-			return seed; 
+			/* Case with root and left/right */
+			treeNode* seedling = new treeNode(original->data, copyST(original->left), copyST(original->right));
+			return seedling; 
 		}
-		else(!original) return 0;
+		/* Case of nothing */
+		else if(!original) return 0;
+		else{
+			/* Case with only root node */
+			treeNode* root = new treeNode(original->data, 0, 0);
+			return root;
+		}
 	}
 
 	/* construction / destruction */
