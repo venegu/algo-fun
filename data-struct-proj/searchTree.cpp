@@ -163,6 +163,7 @@ namespace csc212
 	void Tree::operator=(const Tree& T)
 	{
 		/* TODO: write this */
+		this->root = copyST(T.root);
 	}
 
 	bool Tree::isEmpty() { return (root==0); }
@@ -170,7 +171,13 @@ namespace csc212
 	bool searchST(treeNode* stroot, val_type x)
 	{
 		/* TODO: write this */
-		return true;
+		/* returns whether or not x is in the subtree with root == stroot */
+		while(stroot && stroot->data!=x) /* to check if tree is completely empty this can also be done with an if-statement but meh... more lines*/
+        {
+            if(stroot->data > x) stroot=stroot->left; /* left */
+            else stroot=stroot->right; /* right */
+        }
+		return stroot; /* yaaahooooo */
 	}
 
 	bool Tree::search(val_type x)
