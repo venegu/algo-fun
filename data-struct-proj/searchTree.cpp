@@ -205,14 +205,16 @@ namespace csc212
 	val_type maxST(treeNode* stroot) //returns max value in subtree
 	{
 		/* TODO: write this */
-		return 0;
+		if(stroot->right) return maxST(stroot->right);
+		return stroot->data;
 	}
 	val_type Tree::max() { return maxST(this->root); }
 
 	val_type minST(treeNode* stroot) //returns min value in subtree
 	{
 		/* TODO: write this */
-		return 0;
+		if(stroot->left) return minST(stroot->left);
+		return stroot->data;
 	}
 	val_type Tree::min() { return minST(this->root); }
 
