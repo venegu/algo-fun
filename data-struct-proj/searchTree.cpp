@@ -123,11 +123,18 @@ namespace csc212
 	unsigned long heightST(treeNode* stroot);
 
 	bool isLeaf(treeNode* tn) { return (tn->left == 0 && tn->right == 0); }
-
+	
+	/* this makes a copy of the subtree and returns a pointer to the root
+	 * (the root of the copy, of course) */
 	treeNode* copyST(treeNode* original)
 	{
 		/* TODO: write this */
-		return 0;
+
+		if(original){
+			treeNode* seed = new treeNode(original->data, copyST(original->left), copyST(original->right));
+			return seed; 
+		}
+		else(!original) return 0;
 	}
 
 	/* construction / destruction */
