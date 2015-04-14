@@ -1,7 +1,7 @@
 /****************************************************
 implementation file for our binary search tree.
 *****************************************************/
-
+/* Lisa Maldonado */
 #include <iostream>
 #include <cmath>
 #include <iomanip>
