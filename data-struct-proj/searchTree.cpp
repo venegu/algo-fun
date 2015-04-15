@@ -124,8 +124,6 @@ namespace csc212
 
 	bool isLeaf(treeNode* tn) { return (tn->left == 0 && tn->right == 0); }
 	
-	/* this makes a copy of the subtree and returns a pointer to the root
-	 * (the root of the copy, of course) */
 	treeNode* copyST(treeNode* original)
 	{
 		/* TODO: write this */
@@ -221,6 +219,36 @@ namespace csc212
 	void removeST(treeNode*& stroot, val_type x)
 	{
 		/* TODO: write this */
+		if(stroot==0)return; 
+		/* if not equal to x */
+		if(stroot->data != x) {
+			if (stroot->data<x && stroot->right){
+					removeST(stroot->right, x);
+					return;
+					}
+				else{ /*stroot->data>x and stroot->left*/
+					removeST(stroot->left, x);
+					return;
+				}
+		}
+		/* Case with two children */ 
+		if(stroot->left && stroot->right){
+			/* get the nextmost right one (smallest biggest ones -- paradox shenannigaaans) */
+			stroot->data = minST(stroot->right);
+			removeST(stroot->right, minST(stroot->right));
+			return;
+		}
+		/* Case with no children -- here check if the node is a leaf or not (plsbetrue) */
+		else if(isLeaf(stroot)){
+			delete stroot;
+			stroot = 0; 
+			return;
+		}
+		/* Case with one child - meeep >.><.< */
+		else{
+			if(stroot->right) stroot=stroot->right; 
+			else stroot=stroot->left; 
+		} 
 	}
 	void Tree::remove(csc212::val_type x)
 	{
@@ -230,6 +258,11 @@ namespace csc212
 	void clearST(treeNode*& stroot) //erases subtree
 	{
 		/* TODO: write this */
+		if(stroot==0) return;
+		clearST(stroot->left); 
+		clearST(stroot->right);
+		delete stroot; 
+		stroot = 0; 
 	}
 	void Tree::clear()
 	{
@@ -270,7 +303,12 @@ namespace csc212
 	unsigned long numLeavesST(treeNode* stroot) //returns number of leaves in the subtree.
 	{
 		/* TODO: write this */
-		return 0;
+		/* Case of empty tree */ 
+		if(!stroot) return 0; 
+		/* Case with just root node */
+		else if(stroot->left==0 && stroot->right==0) return 1;
+		/* Case with root with left and right */
+		else return numLeavesST(stroot->left)+numLeavesST(stroot->right);  
 	}
 	unsigned long Tree::numLeaves()
 	{
