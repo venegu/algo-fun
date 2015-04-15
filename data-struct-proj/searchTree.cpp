@@ -199,7 +199,7 @@ namespace csc212
 		return false; //x was already in the tree
 	}
 	bool Tree::insert(val_type x) { return insertST(this->root,x); }
-
+	/* simple helpful stuff */
 	val_type maxST(treeNode* stroot) //returns max value in subtree
 	{
 		/* TODO: write this */
@@ -281,12 +281,20 @@ namespace csc212
 	void inOrderST(treeNode*& stroot, nodeProcessingFn f, void* pParams)
 	{
 		/* TODO: write this */
+		if(stroot==0) return;
+		inOrderST(stroot->left,f,pParams); //process the left subtree
+		f(stroot,pParams); //then apply some process (f) to the root.
+		inOrderST(stroot->right,f,pParams);//and then the right subtree 
 	}
 	void postOrderST(treeNode*& stroot, nodeProcessingFn f, void* pParams)
 	{
 		/* TODO: write this */
+		if(stroot==0) return;
+		postOrderST(stroot->left,f,pParams); //process the left subtree
+		postOrderST(stroot->right,f,pParams);//then the right subtree
+		f(stroot,pParams); //then apply some process (f) to the root.
 	}
-
+	/* thanks for the hints dude #_# */
 	void Tree::preOrder(ostream* o)
 	{
 		preOrderST(this->root,&outputData,(void*)(o));
@@ -319,7 +327,8 @@ namespace csc212
 	unsigned long sizeST(treeNode* stroot)
 	{
 		/* TODO: write this */
-		return 0;
+		if(stroot==0) return 0;
+		else return (sizeST(stroot->left) + sizeST(stroot->right) + 1);
 	}
 	unsigned long Tree::size()
 	{
