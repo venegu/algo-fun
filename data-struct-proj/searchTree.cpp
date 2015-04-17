@@ -223,13 +223,13 @@ namespace csc212
 		/* if not equal to x */
 		if(stroot->data != x) {
 			if (stroot->data<x && stroot->right){
-					removeST(stroot->right, x);
-					return;
-					}
-				else{ /*stroot->data>x and stroot->left*/
-					removeST(stroot->left, x);
-					return;
+				removeST(stroot->right, x);
+				return;
 				}
+			else{ /*stroot->data>x and stroot->left*/
+				removeST(stroot->left, x);
+				return;
+			}
 		}
 		/* Case with two children */ 
 		if(stroot->left && stroot->right){
@@ -249,6 +249,34 @@ namespace csc212
 			if(stroot->right) stroot=stroot->right; 
 			else stroot=stroot->left; 
 		} 
+
+		#if 0
+		/* Other way of doing it that is puportedly more restrictive? */
+		if(stroot==0) return;
+		if(stroot->data == x){
+			/* Case with two children */ 
+			if(stroot->left && stroot->right){
+				/* get the nextmost right one (smallest biggest ones -- paradox shenannigaaans) */
+				stroot->data = minST(stroot->right);
+				removeST(stroot->right, minST(stroot->right));
+				return;
+			}
+			/* Case with no children -- here check if the node is a leaf or not (plsbetrue) */
+			else if(isLeaf(stroot)){
+				delete stroot;
+				stroot = 0; 
+				return;
+			}
+			/* Case with one child - meeep >.><.< */
+			else{
+				if(stroot->right) stroot=stroot->right; 
+				else stroot=stroot->left; 
+			} 
+		}
+		else if(stroot->data<x && stroot->right) removeST(stroot->right, x);
+		else removeST(stroot->left, x);
+		/* I prefer this one better */
+		#endif
 	}
 	void Tree::remove(csc212::val_type x)
 	{
