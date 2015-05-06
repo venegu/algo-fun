@@ -7,3 +7,4 @@ Data Structures Projects (to date):
    3. Hash Tables
    4. Binary Search Trees
    5. Huffman Coding
+   6. Basic Graphs
