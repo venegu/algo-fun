@@ -1,3 +1,4 @@
+/* Lisa Maldonado - Sorry for the lateness! */ 
 /* huffman encoding. */
 #pragma once
 #include <stddef.h> /* size_t */
@@ -121,6 +122,19 @@ template <typename T, typename L>
 void heapify(vector<T>& A, size_t i, L lt = less<T>())
 {
 	/* TODO: write this */
+	/* Right and Left children - make vars for them */
+	size_t right=RIGHT(i), size_t left=LEFT(i);
+
+	/* For the least one */
+	size_t l; 
+
+	if(right<A.size() && lt(A[right],A[i])) l = right; 
+	else if(left<A.size() && lt(A[left],A[i])) l = left; 
+	else
+		l = i; 
+
+	if(l!=i) swap(A[i], A[l]), heapify(A, l, lt);
+	/* sorry, I'm going to be lazy here and pretty much everywhere */
 }
 
 /* we also need to heapify "upward" when inserting new elements: */
@@ -128,6 +142,10 @@ template <typename T, typename L>
 void heapify_up(vector<T>& A, size_t i, L lt = less<T>())
 {
 	/* TODO: write this */
+	size_t parent = PARENT(i); 
+
+	/* This should be recursive for elements up zzzz */
+	if(lt(A[i],A[parent])) swap(A[parent],A[i]), heapify_up(A,parent,lt);
 }
 
 /* buildHeap.  Takes an un-ordered array and turns it into a heap. */
@@ -138,6 +156,14 @@ void buildHeap(vector<T>& A, L lt = less<T>())
 	 * backwards through the tree calling heapify, starting from the
 	 * last node's parent. */
 	/* TODO: write this */
+	/* given the above note: */
+	size_t thing = (A.size())-1; 
+	/* decrementing other things yabagabaga */ 
+	for(size_t other_thing = thing; other_thing!=0; other_thing--){
+		heapify(A,PARENT(other_thing), lt);
+		/* now what ... ? */
+		if(other_thing%2==0) other_thing--; //:)
+	}	 
 }
 
 /************* priority queue functions. **************/
