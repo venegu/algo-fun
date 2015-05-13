@@ -122,17 +122,13 @@ template <typename T, typename L>
 void heapify(vector<T>& A, size_t i, L lt = less<T>())
 {
 	/* TODO: write this */
-	/* Right and Left children - make vars for them */
-	size_t right=RIGHT(i), size_t left=LEFT(i);
 
 	/* For the least one */
 	size_t l; 
 
-	if(right<A.size() && lt(A[right],A[i])) l = right; 
-	else if(left<A.size() && lt(A[left],A[i])) l = left; 
-	else
-		l = i; 
-
+	if(RIGHT(i)<A.size() && lt(A[right],A[i])) l = RIGHT(i); 
+	if(LEFT(i)<A.size() && lt(A[left],A[i])) l = LEFT(i); 
+	if(l==i) return;
 	if(l!=i) swap(A[i], A[l]), heapify(A, l, lt);
 	/* sorry, I'm going to be lazy here and pretty much everywhere */
 }
