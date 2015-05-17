@@ -158,7 +158,7 @@ namespace csc212
 		 //what if search(x); --> would be inefficient unless params change - WHY DID WE USE BOOL???
 		 #endif
 
-		/* yet another solution (yas) -- this one actually works */
+		/* yet another solution (yas) -- this one actually works and makes sense (thx curl :P) */
 		#if 0
 		/* putting param into hash function */
 		int val = h(x); 
