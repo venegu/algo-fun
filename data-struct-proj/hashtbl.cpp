@@ -147,7 +147,7 @@ namespace csc212
 		/* how to one line this ... if only it were skippable - could this be recursive? */
 		list<val_type>::iterator why; // why will break further down without this initilization
 		why = find(table[h(x)].begin(), table[h(x)].end(),x); /* range to look for what and the "what" -> x */
-		if(why != table[h(x).end()]) return true;
+		if(why != table[h(x)].end()) return true;
 		else return false; 
 
 		/* Another solution that could possibly work */
