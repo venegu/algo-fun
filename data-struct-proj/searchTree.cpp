@@ -171,10 +171,10 @@ namespace csc212
 		/* TODO: write this */
 		/* returns whether or not x is in the subtree with root == stroot */
 		while(stroot && stroot->data!=x) /* to check if tree is completely empty this can also be done with an if-statement but meh... more lines*/
-        {
-            if(stroot->data > x) stroot=stroot->left; /* left */
-            else stroot=stroot->right; /* right */
-        }
+        	{
+            		if(stroot->data > x) stroot=stroot->left; /* left */
+            		else stroot=stroot->right; /* right */
+        	}
 		return stroot; /* yaaahooooo */
 	}
 
