@@ -72,9 +72,8 @@ namespace csc212
 		this->nBits = H.nBits;
 		this->h=H.h;
 		/* wai dis ^ -.- */
-        this->table = new list<val_type>[TLEN];
-        for(size_t i = 0 ; i < TLEN ; i++)
-             this->table[i] = H.table[i];
+		this->table=new list<val_type>[TLEN]; 
+		for(size_t i=0l i<TLEN; i++) this->table[i] = H.table[i];
 	}
 
 	//destructor:
@@ -163,7 +162,7 @@ namespace csc212
 		/* putting param into hash function */
 		int val = h(x); 
 		list<val_type>::iterator y = this->table[val].begin(); //this silliness again
-		for(table[val].begin(); y!= table[key].end(); ++y){ //one must be added first before proceeding
+		for(table[val].begin(); y!= table[val].end(); ++y){ //one must be added first before proceeding
 			if(*y==x) return true; 
 		}
 		/* if not then it's false */
