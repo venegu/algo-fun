@@ -2,7 +2,7 @@
 implementation file for the hash table class.
 *****************************************************/
 
-/* Lisa Maldonado T_T -- I received help from Carl & Alex */
+/* Lisa Maldonado */
 
 #include "hashtbl.h"
 #include <iostream>
@@ -44,18 +44,16 @@ namespace csc212
 		assert(x.length() <= 4*aLen);
 		/* TODO: write the hash function. */
 		string t = x; 
+		if(x.length()%8 !=0){
+			for(size_t i = 0; i<(8-(x.length()%8)); i++) t.push_back('\0'); /* correcting */
+		}
 
-        if(x.length()%8 !=0) /* 8 bitssss or bytes */ 
-            for(size_t i = 0; i<(8-(x.length()%8)); i++)
-                t.push_back('\0');
-
-        const uint32_t* H = reinterpret_cast<const uint32_t*>(t.c_str());
-        uint64_t q=0; /* thing */ 
-        uint64_t w=0; /* other thing */ 
-        for (size_t i=0; i<t.length()/8; i++)
-            q+=(uint64_t)(H[2*i]+this->a[2*i])*(H[2*i+1] + this->a[2*i+1]);
-
-       return w=((q*(this->alpha)+this->beta)>>((uint64_t)(64-(this->rangebits))));
+		const uint32_t* H = reinterpret_cast<const uint32_t*>(t.c_str()); 
+		uint64_t q = 0;
+		uint64_t w = 0; 
+		/* conversions happening here - this is slightly ugly and painful */
+		for(size_t i= 0; i<t.length()/8; i++) q+=(uint64_t)(H[2*i]+this->a[2*i])*(H[2*i+1]+this->a[2*i+1]); 
+		return w=((q*(this->alpha)+this->beta)>>((uint64_t)(64-(this->rangebits)))); 
 	}
 
 	//constructors:
@@ -92,12 +90,12 @@ namespace csc212
 	{
 		/* TODO: write this */
 		if(this==&H) return *this;
-        clear();
-        this->nBits = H.nBits;
-        this->h = H.h;
-        this->table = new list<val_type>[TLEN];
-        for(size_t i = 0; i < TLEN; i++) this->table[i] = H.table[i];
- 		/* what value does this return??? @_@ wah */
+		clear();
+		this->nBits=H.nBits; 
+		this->h=H.h; 
+		this->table= new list<val_type>[TLEN]; 
+		for(size_t i = 0; i<TLEN; i++) this->table[i] = H.table[i];
+ 		/* what value does this return??? the original? */
 		return *this;
 	}
 
@@ -147,15 +145,18 @@ namespace csc212
 	{
 		/* TODO: write this */
 		/* how to one line this ... if only it were skippable - could this be recursive? */
-		list<val_type>::iterator why; // <- this breaks without initilization 
-        why = find(table[h(x)].begin(), table[h(x)].end(),x);
-        if(why !=table[h(x)].end()) return true;
-        else return false; //just so it compiles for now...
- 
-        #if 0
-        return this->table[h(x,[h(x)].tableLength())].search(x);
-		//this is ludicrous
-        #endif
+		list<val_type>::iterator why; // why will break further down without this initilization
+		why = find(table[h(x)].begin(), table[h(x)].end(),x); /* range to look for what and the "what" -> x */
+		if(why != table[h(x).end()]) return true;
+		else return false; 
+
+		/* Another solution that could possibly work */
+		#if 0
+		return this->table[h(x,[h(x)].tableLength())].search(x);
+		/*what would be acceptable as a reference to the table length
+		 * TLEN, this->nBits nor the actual value of TLEN do not work @-@*/
+		 //what if search(x); --> would be inefficient unless params change  
+		 #endif
 	}
 
 	size_t hashTbl::countElements() const
@@ -187,11 +188,10 @@ namespace csc212
 	{
 		/* TODO: write this */
 		size_t longest=0; size_t size=0;
-
-        for(size_t i=0; i<TLEN; i++){
-            size=table[i].size();
-            if(size>longest) longest = size;
-        }
+		for(size_t i=0; i<TLEN; i++){
+			size = table[i].size(); 
+			if(size>longest) longest = size; 
+		}
 		return longest;
 		//return 0; //just so it compiles for now...
 	}
