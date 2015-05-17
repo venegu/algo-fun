@@ -2,6 +2,8 @@
 implementation file for the hash table class.
 *****************************************************/
 
+/* Lisa Maldonado T_T -- I received help from Carl & Alex */
+
 #include "hashtbl.h"
 #include <iostream>
 using std::endl;
@@ -41,7 +43,19 @@ namespace csc212
 	uint64_t hashTbl::hash::operator()(const string& x) const {
 		assert(x.length() <= 4*aLen);
 		/* TODO: write the hash function. */
-		return 0;
+		string t = x; 
+
+        if(x.length()%8 !=0) /* 8 bitssss or bytes */ 
+            for(size_t i = 0; i<(8-(x.length()%8)); i++)
+                t.push_back('\0');
+
+        const uint32_t* H = reinterpret_cast<const uint32_t*>(t.c_str());
+        uint64_t q=0; /* thing */ 
+        uint64_t w=0; /* other thing */ 
+        for (size_t i=0; i<t.length()/8; i++)
+            q+=(uint64_t)(H[2*i]+this->a[2*i])*(H[2*i+1] + this->a[2*i+1]);
+
+       return w=((q*(this->alpha)+this->beta)>>((uint64_t)(64-(this->rangebits))));
 	}
 
 	//constructors:
@@ -54,9 +68,15 @@ namespace csc212
 	hashTbl::hashTbl(const hashTbl& H)
 	{
 		/* TODO: write this */
+		
 		/* NOTE: the underlying linked list class has a working
 		 * assignment operator! */
-
+		this->nBits = H.nBits;
+		this->h=H.h;
+		/* wai dis ^ -.- */
+        this->table = new list<val_type>[TLEN];
+        for(size_t i = 0 ; i < TLEN ; i++)
+             this->table[i] = H.table[i];
 	}
 
 	//destructor:
@@ -71,6 +91,13 @@ namespace csc212
 	hashTbl& hashTbl::operator=(const hashTbl& H)
 	{
 		/* TODO: write this */
+		if(this==&H) return *this;
+        clear();
+        this->nBits = H.nBits;
+        this->h = H.h;
+        this->table = new list<val_type>[TLEN];
+        for(size_t i = 0; i < TLEN; i++) this->table[i] = H.table[i];
+ 		/* what value does this return??? @_@ wah */
 		return *this;
 	}
 
@@ -90,12 +117,16 @@ namespace csc212
 	void hashTbl::insert(val_type x)
 	{
 		/* TODO: write this */
+		if(!search(x)) this->table[h(x)].push_front(x);
+		else return; 
 		//Remember to check for uniqueness before inserting.
 	}
 
 	void hashTbl::remove(val_type x)
 	{
 		/* TODO: write this */
+		/* what if I used an if else... */
+		table[h(x)].remove(x); 	
 	}
 
 	void hashTbl::clear()
@@ -115,13 +146,26 @@ namespace csc212
 	bool hashTbl::search(val_type x) const
 	{
 		/* TODO: write this */
-		return false; //just so it compiles for now...
+		/* how to one line this ... if only it were skippable - could this be recursive? */
+		list<val_type>::iterator why; // <- this breaks without initilization 
+        why = find(table[h(x)].begin(), table[h(x)].end(),x);
+        if(why !=table[h(x)].end()) return true;
+        else return false; //just so it compiles for now...
+ 
+        #if 0
+        return this->table[h(x,[h(x)].tableLength())].search(x);
+		//this is ludicrous
+        #endif
 	}
 
 	size_t hashTbl::countElements() const
 	{
 		/* TODO: write this */
-		return 0; //just so it compiles for now...
+		size_t count = 0; 
+		for(size_t i = 0; i < TLEN; i++){
+			for(list<val_type>::iterator why = this->table[i].begin(); why !=this->table[i].end(); why++) count++;
+		}		
+		return count; //just so it compiles for now...
 	}
 
 	size_t hashTbl::tableLength() const
@@ -142,6 +186,13 @@ namespace csc212
 	size_t hashTbl::longestListLength() const
 	{
 		/* TODO: write this */
-		return 0; //just so it compiles for now...
+		size_t longest=0; size_t size=0;
+
+        for(size_t i=0; i<TLEN; i++){
+            size=table[i].size();
+            if(size>longest) longest = size;
+        }
+		return longest;
+		//return 0; //just so it compiles for now...
 	}
 }
