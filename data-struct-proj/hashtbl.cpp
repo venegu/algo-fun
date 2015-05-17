@@ -155,8 +155,20 @@ namespace csc212
 		return this->table[h(x,[h(x)].tableLength())].search(x);
 		/*what would be acceptable as a reference to the table length
 		 * TLEN, this->nBits nor the actual value of TLEN do not work @-@*/
-		 //what if search(x); --> would be inefficient unless params change  
+		 //what if search(x); --> would be inefficient unless params change - WHY DID WE USE BOOL???
 		 #endif
+
+		/* yet another solution (yas) -- this one actually works */
+		#if 0
+		/* putting param into hash function */
+		int val = h(x); 
+		list<val_type>::iterator y = this->table[val].begin(); //this silliness again
+		for(table[val].begin(); y!= table[key].end(); ++y){ //one must be added first before proceeding
+			if(*y==x) return true; 
+		}
+		/* if not then it's false */
+		else return false; 
+		#endif
 	}
 
 	size_t hashTbl::countElements() const
